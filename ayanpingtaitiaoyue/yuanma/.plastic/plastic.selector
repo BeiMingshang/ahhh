@@ -1,0 +1,4 @@
+repository "PingTaiTiaoYue2@beimingshang@cloud.cn"
+  path "/"
+    br "/main"
+    co "/main"

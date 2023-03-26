@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Date/StateMachine/PlayerState/Fall", fileName = "PlayerState_Fall")]
+public class PlayeState_Fall : PlayerState
+{
+    [SerializeField] AnimationCurve speedCurve;
+    [SerializeField] float moveSpeed=5f;
+
+    public override void LogicUpdate()
+    {
+        if(player.IsGrounded)
+        {
+            stateMachine.SwitchState(typeof(PlayerState_Land));
+        }
+        if(input.Jump)
+        {
+            if(player.CanAirJump)
+            {
+                stateMachine.SwitchState(typeof (PlayerState_AirJump));
+                return;
+            }
+            input.SetJumpInputBufferTimer();
+        }
+    }
+    public override void PhysicUpdate()
+    {
+       player.Move(moveSpeed);
+       player.SetVelocityY( speedCurve.Evaluate(StateDuration));
+        
+    }
+}
